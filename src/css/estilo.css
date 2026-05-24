@@ -96,8 +96,6 @@ nav ul li a.ativo {
 
     &::before {
         content: '';
-        /* background-color: #000000b5; */
-        background: rgba(0, 0, 0, 0.4);
         position: absolute;
         top: 0;
         left: 0;
@@ -402,6 +400,21 @@ nav ul li a.ativo {
     max-width: 800px;
 }
 
+#destaque{
+    max-width: 1000px;
+    margin-right: 0;
+}
+
+#destaque h4{
+    color: var(--branco);
+    font-size: 48px;
+    display: flex;
+    text-align: right;
+    margin-top: 150px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
 .sobre-bloco h3 {
     font-family: var(--fonte-titulo);
     font-size: 32px;
@@ -415,30 +428,6 @@ nav ul li a.ativo {
     font-size: 16px;
     line-height: 1.9;
     margin-bottom: 14px;
-}
-
-.sobre-numeros {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    padding-top: 50px;
-    border-top: 1px solid var(--preto-borda);
-}
-
-.numero-item h3 {
-    font-family: var(--fonte-titulo);
-    font-size: 48px;
-    color: var(--laranja);
-    letter-spacing: 2px;
-}
-
-.numero-item p {
-    color: var(--cinza);
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 4px;
 }
 
 footer {
