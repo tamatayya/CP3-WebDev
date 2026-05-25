@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/estilo.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>TamatayaMotos | Carrinho</title>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="logo-volt">TAMATAYA</span><span class="logo-ride">MOTORS</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="./loja.html" class="ativo">Loja</a></li>
+                <li><a href="./sobre.html">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="loja-main">
+
+        <section id="carrinho-section">
+            <h2>Seu Carrinho</h2>
+            <p class="section-sub">Revise seus itens antes de finalizar</p>
+
+            <div id="lista-carrinho"></div>
+
+            <div id="resumo">
+                <div class="resumo-linha">
+                    <span>Subtotal</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="resumo-linha destaque">
+                    <span>Total da Compra</span>
+                    <h2 id="total-compra">R$ 0,00</h2>
+                </div>
+                <div class="resumo-acoes">
+                    <button id="btn-desconto" onclick="aplicarDesconto()">Aplicar 10% de desconto</button>
+                    <button id="btn-finalizar" onclick="finalizarCompra()">Finalizar compra</button>
+                </div>
+                <p id="msg-desconto"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TamatayaMotos — Todos os direitos reservados</p>
+    </footer>
+
+    <script src="../src/js/script.js"></script>
+
+</body>
+</html>
