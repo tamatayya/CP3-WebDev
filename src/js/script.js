@@ -34,10 +34,20 @@ const produtos = [
 
 
 function formatarPreco(valor) {
-    return "R$ " + valor.toFixed(2);
+    return "R$ " + valor.toFixed(2).replace(".", ",");
 }
 
 
+// ── CARRINHO ──────────────────────────────────────────
+// Carrega do sessionStorage ou começa vazio
+let carrinho = JSON.parse(sessionStorage.getItem("carrinho") || "[]");
+
+function salvarCarrinho() {
+    sessionStorage.setItem("carrinho", JSON.stringify(carrinho));
+}
+
+
+// ── INDEX: renderiza os cards de produto ──────────────
 const containerProdutos = document.getElementById("lista-produtos");
 
 if (containerProdutos) {
@@ -54,44 +64,67 @@ if (containerProdutos) {
                     <h3>${moto.nome}</h3>
                     <p>${moto.descricao}</p>
                     <span class="preco">${formatarPreco(moto.preco)}</span>
+                    <button class="btn-adicionar" onclick="adicionarAoCarrinho(${i})">Adicionar ao carrinho</button>
                 </div>
             </div>
         `;
     }
 
-    
     containerProdutos.innerHTML = htmlProdutos;
 }
 
 
-const carrinho = [
-    { nome: "VoltRide X1",        quantidade: 1, preco: 12500 },
-    { nome: "VoltRide Sport S3",  quantidade: 2, preco: 21900 },
-    { nome: "VoltRide Cargo Pro", quantidade: 1, preco: 16800 }
-];
+// Adiciona produto ao carrinho e exibe mensagem de confirmação
+function adicionarAoCarrinho(indice) {
+    const produto = produtos[indice];
+
+    carrinho.push({
+        nome: produto.nome,
+        quantidade: 1,
+        preco: produto.preco
+    });
+
+    salvarCarrinho();
+
+    // Exibe mensagem de confirmação
+    const msgEl = document.getElementById("msg-adicionado");
+    if (msgEl) {
+        msgEl.textContent = `✓ ${produto.nome} adicionado ao carrinho!`;
+        msgEl.style.display = "block";
+
+        setTimeout(function() {
+            msgEl.style.display = "none";
+        }, 2500);
+    }
+}
 
 
+// ── LOJA: renderiza o carrinho ────────────────────────
 const containerCarrinho = document.getElementById("lista-carrinho");
 const elementoTotal     = document.getElementById("total-compra");
 const elementoSubtotal  = document.getElementById("subtotal");
 const msgDesconto       = document.getElementById("msg-desconto");
 
-
 let descontoAplicado = false;
 
 
 function calcularTotal() {
-    const total = carrinho.reduce(function(acumulador, item) {
+    return carrinho.reduce(function(acumulador, item) {
         return acumulador + (item.preco * item.quantidade);
     }, 0);
-
-    return total;
 }
 
 
 function mostrarCarrinho() {
 
     if (!containerCarrinho) return;
+
+    if (carrinho.length === 0) {
+        containerCarrinho.innerHTML = "<p class='carrinho-vazio'>Seu carrinho está vazio.</p>";
+        elementoSubtotal.innerText = formatarPreco(0);
+        elementoTotal.innerText    = formatarPreco(0);
+        return;
+    }
 
     let htmlItens = "";
 
@@ -105,11 +138,11 @@ function mostrarCarrinho() {
                     <p>Quantidade: ${item.quantidade}</p>
                 </div>
                 <span class="item-preco">${formatarPreco(item.preco * item.quantidade)}</span>
+                <button class="btn-excluir" onclick="excluirItem(${i})">Excluir</button>
             </div>
         `;
     }
 
-    
     containerCarrinho.innerHTML = htmlItens;
 
     const total = calcularTotal();
@@ -121,6 +154,14 @@ function mostrarCarrinho() {
 }
 
 
+// Remove item do carrinho pelo índice
+function excluirItem(indice) {
+    carrinho.splice(indice, 1);
+    salvarCarrinho();
+    mostrarCarrinho();
+}
+
+
 function aplicarDesconto() {
 
     if (descontoAplicado) {
@@ -128,23 +169,22 @@ function aplicarDesconto() {
         return;
     }
 
-    const totalOriginal = calcularTotal();
-
+    const totalOriginal    = calcularTotal();
     const totalComDesconto = totalOriginal * 0.90;
     const valorEconomizado = totalOriginal * 0.10;
 
-    
     elementoTotal.innerText = formatarPreco(totalComDesconto);
-
-    
-    msgDesconto.innerText = "Desconto de 10% aplicado! Voce economizou " + formatarPreco(valorEconomizado);
+    msgDesconto.innerText   = "Desconto de 10% aplicado! Você economizou " + formatarPreco(valorEconomizado);
 
     descontoAplicado = true;
 }
 
 
 function finalizarCompra() {
-    alert("Compra finalizada com sucesso! Obrigado por escolher a VoltRide!");
+    alert("Compra finalizada com sucesso! Obrigado por escolher a TamatayaMotos!");
+    carrinho = [];
+    salvarCarrinho();
+    mostrarCarrinho();
 }
 
 
